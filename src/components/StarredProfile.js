@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, NativeSelect } from '@material-ui/core';
+import { Button } from '@material-ui/core';
+import InstagramIcon from '@material-ui/icons/Instagram';
 
 class StarredProfile extends React.Component {
   render() {
@@ -11,7 +12,7 @@ class StarredProfile extends React.Component {
 
             <span className="item_container">
               <span className="profile_name">{user.influencer_full_name}</span>
-              <span className="insta_username">@{user.influencer_instagram_username}</span>
+              <span className="insta_username"><InstagramIcon/>{user.influencer_instagram_username}</span>
             </span>
 
             <span className="data_container">
@@ -19,7 +20,7 @@ class StarredProfile extends React.Component {
               <span className="engagement">{user.statistics.engagement}</span>
             </span>
 
-            <Button onClick={() => this.props.deleteFunction(this.props.index)}> X </Button>
+            <Button onClick={() => this.props.deleteFunction(this.props.index, user)}> X </Button>
           </div>;
   }
 }

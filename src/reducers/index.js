@@ -24,23 +24,24 @@ function addToStarredResponse(data, user, index) {
   };
 }
 
-export function fetchRemoveStarred(id) {
+export function fetchRemoveStarred(id, user) {
   return function(dispatch) {
     return axios.get("http://localhost:4000/starred").then(({
       data
     }) => {
-      dispatch(setRemoveStarred(data, id));
+      dispatch(setRemoveStarred(data, id, user));
     }).catch(error => {
       console.log(error);
     });
   };
 }
 
-function setRemoveStarred(data, id) {
+function setRemoveStarred(data, id, user) {
   return {
     type: "REMOVE_STARRED",
     payload: data,
-    id: id
+    id: id,
+    user: user
   };
 }
 
@@ -168,11 +169,15 @@ function randomInRange(min, max) {
 function suggested(state = INITIAL_STATE.suggested, action) {
   switch (action.type) {
     case "GET_SUGGESTED":
-      state = action.payload.data;
+      state = sortData(action.payload.data);
       break;
     case "ADD_STARRED_RESPONSE":
       state.splice(action.id, 1);
-      state = [...state];
+      state = sortData([...state]);
+      break;
+    case "REMOVE_STARRED":
+      console.log("remove?" + action.user);
+      state = sortData([...state, action.user]);
       break;
     default:
       return state

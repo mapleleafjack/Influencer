@@ -40,8 +40,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchStarred: (sort) => dispatch (fetchStarred(sort)),
-    fetchRemoveStarred: (id) => {
-      dispatch(fetchRemoveStarred(id))
+    fetchRemoveStarred: (id, user) => {
+      dispatch(fetchRemoveStarred(id, user))
     }
   }
 }

@@ -17,10 +17,10 @@ function Suggested ({ suggestedData, fetchSuggested, addToStarred })  {
   }
   return <div>
   {
-    suggestedData.map
+    suggestedData.length > 0 ? suggestedData.map
     (
       (user, index) => <SuggestedProfile className="jack" key={user.influencer_id} index={index} user={user} addStarredFunction={addToStarred} />
-    )
+    ) : <h1> No more data to show </h1>
   }
   </div>;
 }
