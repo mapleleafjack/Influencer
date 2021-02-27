@@ -2,20 +2,23 @@ import React, { useEffect } from 'react'
 
 import { fetchStarred } from '../reducers/index.js'
 import { fetchRemoveStarred } from '../reducers/index.js'
+import { sortCollection } from '../reducers/index.js'
 import { connect } from 'react-redux'
 import '../index.css'
 
 function Starred ({ starredData, fetchStarred,  fetchRemoveStarred})  {
   useEffect(()=> {
     fetchStarred()
-  }, [])
+  }, [fetchStarred])
   if (!starredData) {
     return "Loading data"
   }
-
-  console.log(starredData);
-
   return <div>
+  <select name="order" id="order" onChange={(e) => fetchStarred(e.target.value)}>
+    <option value="id">ID</option>
+    <option value="username">Username</option>
+    <option value="name">Name</option>
+  </select>
   {
     starredData.map
     (
@@ -31,15 +34,15 @@ function Starred ({ starredData, fetchStarred,  fetchRemoveStarred})  {
   </div>;
 }
 
+
 const mapStateToProps = state => {
-  console.log(state);
   return {
     starredData: state.starred
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    fetchStarred: () => dispatch (fetchStarred()),
+    fetchStarred: (sort) => dispatch (fetchStarred(sort)),
     fetchRemoveStarred: (id) => {
       dispatch(fetchRemoveStarred(id))
     }

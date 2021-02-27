@@ -38,21 +38,20 @@ function setRemoveStarred(data, id) {
   };
 }
 
-export function fetchStarred(sort) {
+export function fetchStarred() {
   return function(dispatch) {
     return axios.get("http://localhost:4000/starred").then(({ data }) => {
-      dispatch(getStarred(data, sort));
+      dispatch(getStarred(data));
     }).catch(error => {
       console.log(error);
     });
   };
 }
 
-function getStarred(data, sort) {
+function getStarred(data) {
   return {
     type: "GET_STARRED",
-    payload: data,
-    sort: sort
+    payload: data
   };
 }
 
@@ -88,7 +87,6 @@ export const INITIAL_STATE = {
 function starred(state = INITIAL_STATE.starred, action) {
   switch (action.type) {
     case "GET_STARRED":
-      console.log(action.sort);
       state = action.payload.data;
       break
     case "REMOVE_STARRED":
@@ -96,6 +94,7 @@ function starred(state = INITIAL_STATE.starred, action) {
       state = [...state];
       break;
     case "ADD_STARRED_RESPONSE":
+      console.log(action);
       state = [...state, action.user];
       break;
     default:

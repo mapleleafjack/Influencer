@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 
 import {fetchSuggested} from '../reducers/index.js'
-import {fetchResponse} from '../reducers/index.js'
+import {addToStarred} from '../reducers/index.js'
 
 import { connect } from 'react-redux'
 import '../index.css'
 
-function Suggested ({ suggestedData, fetchSuggested, fetchResponse })  {
+function Suggested ({ suggestedData, fetchSuggested, addToStarred })  {
   useEffect(()=> {
     fetchSuggested()
   }, [])
@@ -17,10 +17,10 @@ function Suggested ({ suggestedData, fetchSuggested, fetchResponse })  {
   {
     suggestedData.map
     (
-      user =>
+      (user, index) =>
         <p key={user.influencer_id}> {user.influencer_instagram_username}
-          <button id={user.influencer_id}
-            onClick={() => fetchResponse()}>
+          <button
+            onClick={() => addToStarred(user, index)}>
             +
           </button>
         </p>
@@ -38,8 +38,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchSuggested: () => dispatch (fetchSuggested()),
-    fetchResponse: () => {
-      dispatch(fetchResponse())
+    addToStarred: (user, index) => {
+      dispatch(addToStarred(user, index))
     }
   }
 }
