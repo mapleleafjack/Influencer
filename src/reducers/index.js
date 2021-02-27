@@ -4,20 +4,39 @@ import { combineReducers } from 'redux';
 export function fetchResponse() {
   return function(dispatch) {
     return axios.get("http://localhost:4000/response").then(({ data }) => {
-      dispatch(setReposnse(data));
+      dispatch(setReponse(data));
     }).catch(error => {
       console.log(error);
     });
   };
 }
 
-function setReposnse(data) {
+function setReponse(data) {
   return {
     type: "SET_RESPONSE",
     payload: data
   };
 }
 
+export function fetchRemoveStarred(id) {
+  console.log("remove", id)
+  return function(dispatch) {
+    //this should be changed to a delete, pointing the influencer_id (fake json server doesn't support getting an element by ID)
+    return axios.get("http://localhost:4000/starred").then(({ data }) => {
+      dispatch(setRemoveStarred(data, id));
+    }).catch(error => {
+      console.log(error);
+    });
+  };
+}
+
+function setRemoveStarred(data, id) {
+  return {
+    type: "REMOVE_STARRED",
+    payload: data,
+    id: id
+  };
+}
 
 export function fetchStarred() {
   return function(dispatch) {
@@ -59,23 +78,32 @@ function addSuggested(data) {
   };
 }
 
-const initialStarred = [];
-function starred (starred = initialStarred, action){
-  switch (action.type) {
-    case "SET_STARRED":
-       starred = action.payload.data;
-       return starred;
-    default:
-      return starred
-  }
+const update = (state, mutations) =>
+  Object.assign({}, state, mutations)
+
+export const INITIAL_STATE = {
+  starred: [],
+  suggested: [],
+  actions: []
 }
 
-const initialSuggested = [];
-function suggested (suggested = initialSuggested, action){
+function starred(state = INITIAL_STATE.starred, action) {
+  switch (action.type) {
+    case "SET_STARRED":
+      state = action.payload.data;
+      break
+    case "REMOVE_STARRED":
+      state.splice(action.id, 1);
+      state = [...state];
+      break;
+  }
+  return state;
+}
+
+function suggested (suggested = [], action){
   switch (action.type) {
     case "SET_SUGGESTED":
        suggested = action.payload.data;
-       return suggested;
        return suggested;
     default:
       return suggested
@@ -94,10 +122,9 @@ export const fetchAddSuggested = requestObj => {
     }
 }
 
-
-function response (suggested = [], action){
+function actions (suggested = [], action){
   switch (action.type) {
-    case "ADD_SUGGESTED":
+    case "SET_RESPONSE":
        return action.payload.data;
     default:
       return suggested
@@ -106,6 +133,6 @@ function response (suggested = [], action){
 const rootReducer = combineReducers({
     starred: starred,
     suggested: suggested,
-    response: response
+    actions: actions
 });
 export default rootReducer;
