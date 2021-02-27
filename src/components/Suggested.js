@@ -4,6 +4,8 @@ import SuggestedProfile from './SuggestedProfile'
 import {fetchSuggested} from '../reducers/index.js'
 import {addToStarred} from '../reducers/index.js'
 
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+
 import { connect } from 'react-redux'
 import '../index.scss'
 
@@ -19,12 +21,17 @@ function Suggested ({ suggestedData, fetchSuggested, addToStarred })  {
             <div className="header">
               <span className="title">Suggested Influencers</span>
             </div>
+
             <div className="starred_content">
             {
               suggestedData.length > 0 ? suggestedData.map
               (
                 (user, index) => <SuggestedProfile className="jack" key={user.influencer_id} index={index} user={user} addStarredFunction={addToStarred} />
-              ) : <p className="empty_content"> No more suggested profile for today! Come back tomorrow ;) </p>
+              ) :
+              <div className="empty_content">
+                <p className="empty_text"> No more suggested profiles for today! <br/> Come back tomorrow </p>
+                <WbSunnyIcon/>
+              </div>
             }
             </div>
         </div>;

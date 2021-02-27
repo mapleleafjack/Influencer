@@ -24,19 +24,38 @@ img{
 
 .suggested {
   float: left;
-  width: 30vw;
+  width: 20vw;
   height: 100vh;
   background-color: white;
 }
 .starred {
   float: right;
-  width: 69vw;
+  width: 79vw;
   height: 100vh;
   select{
     float: right;
   }
-  border-left: 3px dotted grey;
+  border-left: 1px dotted grey;
   overflow-y: scroll;
+}
+
+.empty_content{
+  margin: 0;
+  position: relative;
+  top: 45vh;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+
+  svg{
+    width: 100%;
+    font-size: 5vw;
+    color: grey;
+  }
+  .empty_text{
+    color:grey;
+    text-align: center;
+    vertical-align: middle;
+  }
 }
 
 .header{
@@ -48,15 +67,18 @@ img{
   top:0vh;
 
   .title{
-    font-size: 3vh;
+    font-size: 2.3vh;
     font-weight: bold;;
     position: absolute;
     left: 1vw;
+    top: 0.2vw;
   }
   .filter{
     position: absolute;
-    left: 57vw;
     font-size: 2vh;
+    left: 66vw;
+    margin-top: 1vh;
+
     .MuiInput-root{
       font-size: 2vh;
     }
@@ -92,11 +114,6 @@ img{
   }
 }
 
-.empty_content{
-  margin-left: 1vw;
-  margin-top: 2vw;
-}
-
 .influencerRow{
   display: flex;
 }
@@ -108,9 +125,19 @@ img{
   background-color: #FAFAFA;
   width: 100%;
 
+  .plusIcon{
+    display: flex;
+    align-items: center;
+    color:grey;
+  }
+
   &:hover {
     background-color: lightgrey;
     border-radius: 50px 0 0 50px;
+
+    .plusIcon{
+      color:black;
+    }
   }
 
   .item_container{

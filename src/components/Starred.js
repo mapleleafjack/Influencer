@@ -5,6 +5,8 @@ import { NativeSelect } from '@material-ui/core';
 import { fetchStarred } from '../reducers/index.js'
 import { fetchRemoveStarred } from '../reducers/index.js'
 
+import TagFacesIcon from '@material-ui/icons/TagFaces';
+
 import { connect } from 'react-redux'
 import '../index.scss'
 
@@ -16,26 +18,30 @@ function Starred ({ starredData, fetchStarred,  fetchRemoveStarred})  {
     return "Loading data"
   }
   return <div>
+            //this can have its own component
             <div className="header">
               <span className="title">Starred Influencers</span>
-
-              <span className="filter">
-                Sort by:
-                <NativeSelect name="order" id="order" onChange={(e) => fetchStarred(e.target.value)}>
+              <label className="filter"> Sort by:  &nbsp;&nbsp;
+                <NativeSelect  name="order" id="order" onChange={(e) => fetchStarred(e.target.value)}>
                   <option value="username">Username</option>
                   <option value="name">Name</option>
                   <option value="followers">Followers</option>
                   <option value="engagement">Engagement</option>
                 </NativeSelect>
-              </span>
-
+              </label>
             </div>
+            //
+
             <div className="starred_content">
             {
               starredData.length > 0 ? starredData.map
               (
                 (user, index) => <StarredProfile key={user.influencer_id} user={user} index={index} deleteFunction={fetchRemoveStarred}/>
-              ) : <p className="empty_content"> You haven't starred any profile, start with the suggested influencer! </p>
+              ) :
+              <div className="empty_content">
+                <p className="empty_text"> You haven't starred any profile yet<br/> Start with the suggested influencer! </p>
+                <TagFacesIcon/>
+              </div>
             }
             </div>
         </div>;

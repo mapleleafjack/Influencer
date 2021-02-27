@@ -1,6 +1,6 @@
 import React from 'react'
 import InstagramIcon from '@material-ui/icons/Instagram';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import CloseIcon from '@material-ui/icons/Close';
 
 class StarredProfile extends React.Component {
   render() {
@@ -26,7 +26,7 @@ class StarredProfile extends React.Component {
                   <span className="caption">Engagement</span>
                 </span>
               </div>
-              <button className="data_button" onClick={() => this.props.deleteFunction(this.props.index, user)}> <HighlightOffIcon/> </button>
+              <button className="data_button" onClick={() => this.props.deleteFunction(this.props.index, user)}> <CloseIcon/> </button>
           </div>
 
   }

@@ -1,5 +1,6 @@
 import React from 'react'
 import InstagramIcon from '@material-ui/icons/Instagram';
+import AddIcon from '@material-ui/icons/Add';
 
 import '../index.scss'
 
@@ -13,6 +14,7 @@ class SuggestedProfile extends React.Component {
               <span className="profile_name">{user.influencer_full_name}</span>
               <span className="insta_username"><InstagramIcon/>{user.influencer_instagram_username}</span>
             </span>
+            <span className="plusIcon"><AddIcon/></span>
           </div>;
   }
 }
