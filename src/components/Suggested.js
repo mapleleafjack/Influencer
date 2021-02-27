@@ -16,13 +16,18 @@ function Suggested ({ suggestedData, fetchSuggested, addToStarred })  {
     return "Loading data"
   }
   return <div>
-  {
-    suggestedData.length > 0 ? suggestedData.map
-    (
-      (user, index) => <SuggestedProfile className="jack" key={user.influencer_id} index={index} user={user} addStarredFunction={addToStarred} />
-    ) : <h1> No more data to show </h1>
-  }
-  </div>;
+            <div className="header">
+              <span className="title">Suggested Influencers</span>
+            </div>
+            <div className="starred_content">
+            {
+              suggestedData.length > 0 ? suggestedData.map
+              (
+                (user, index) => <SuggestedProfile className="jack" key={user.influencer_id} index={index} user={user} addStarredFunction={addToStarred} />
+              ) : <p className="empty_content"> No more suggested profile for today! Come back tomorrow ;) </p>
+            }
+            </div>
+        </div>;
 }
 
 const mapStateToProps = state => {

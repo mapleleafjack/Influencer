@@ -16,18 +16,28 @@ function Starred ({ starredData, fetchStarred,  fetchRemoveStarred})  {
     return "Loading data"
   }
   return <div>
-            <NativeSelect name="order" id="order" onChange={(e) => fetchStarred(e.target.value)}>
-              <option value="username">Username</option>
-              <option value="name">Name</option>
-              <option value="followers">Followers</option>
-              <option value="engagement">Engagement</option>
-            </NativeSelect>
+            <div className="header">
+              <span className="title">Starred Influencers</span>
+
+              <span className="filter">
+                Sort by:
+                <NativeSelect name="order" id="order" onChange={(e) => fetchStarred(e.target.value)}>
+                  <option value="username">Username</option>
+                  <option value="name">Name</option>
+                  <option value="followers">Followers</option>
+                  <option value="engagement">Engagement</option>
+                </NativeSelect>
+              </span>
+
+            </div>
+            <div className="starred_content">
             {
-              starredData.map
+              starredData.length > 0 ? starredData.map
               (
                 (user, index) => <StarredProfile key={user.influencer_id} user={user} index={index} deleteFunction={fetchRemoveStarred}/>
-              )
+              ) : <p className="empty_content"> You haven't starred any profile, start with the suggested influencer! </p>
             }
+            </div>
         </div>;
 }
 

@@ -144,7 +144,7 @@ function starred(state = INITIAL_STATE.starred, action) {
       }
       break
     case "REMOVE_STARRED":
-      state.splice(action.id, 1);
+      let element_removed = state.splice(action.id, 1);
       state = [...state];
       break;
     case "ADD_STARRED_RESPONSE":
@@ -169,15 +169,15 @@ function randomInRange(min, max) {
 function suggested(state = INITIAL_STATE.suggested, action) {
   switch (action.type) {
     case "GET_SUGGESTED":
-      state = sortData(action.payload.data);
+      state = action.payload.data;
       break;
     case "ADD_STARRED_RESPONSE":
       state.splice(action.id, 1);
-      state = sortData([...state]);
+      state = [...state];
       break;
     case "REMOVE_STARRED":
       console.log("remove?" + action.user);
-      state = sortData([...state, action.user]);
+      state = [...state, action.user];
       break;
     default:
       return state
