@@ -5,7 +5,7 @@ import {fetchSuggested} from '../reducers/index.js'
 import {addToStarred} from '../reducers/index.js'
 
 import { connect } from 'react-redux'
-import '../index.css'
+import '../index.scss'
 
 
 function Suggested ({ suggestedData, fetchSuggested, addToStarred })  {
@@ -19,7 +19,7 @@ function Suggested ({ suggestedData, fetchSuggested, addToStarred })  {
   {
     suggestedData.map
     (
-      (user, index) => <SuggestedProfile key={user.influencer_id} index={index} user={user} addStarredFunction={addToStarred} />
+      (user, index) => <SuggestedProfile className="jack" key={user.influencer_id} index={index} user={user} addStarredFunction={addToStarred} />
     )
   }
   </div>;
