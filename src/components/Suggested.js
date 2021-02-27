@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import SuggestedProfile from './SuggestedProfile'
 
 import {fetchSuggested} from '../reducers/index.js'
 import {addToStarred} from '../reducers/index.js'
@@ -6,10 +7,11 @@ import {addToStarred} from '../reducers/index.js'
 import { connect } from 'react-redux'
 import '../index.css'
 
+
 function Suggested ({ suggestedData, fetchSuggested, addToStarred })  {
   useEffect(()=> {
     fetchSuggested()
-  }, [])
+  }, [fetchSuggested])
   if (!suggestedData) {
     return "Loading data"
   }
@@ -17,13 +19,7 @@ function Suggested ({ suggestedData, fetchSuggested, addToStarred })  {
   {
     suggestedData.map
     (
-      (user, index) =>
-        <p key={user.influencer_id}> {user.influencer_instagram_username}
-          <button
-            onClick={() => addToStarred(user, index)}>
-            +
-          </button>
-        </p>
+      (user, index) => <SuggestedProfile key={user.influencer_id} index={index} user={user} addStarredFunction={addToStarred} />
     )
   }
   </div>;
