@@ -158,7 +158,7 @@ function starred(state = INITIAL_STATE.starred, action) {
       }
       break
     case REMOVE_STARRED:
-      let element_removed = state.splice(action.id, 1);
+      state.splice(action.id, 1);
       state = [...state];
       break;
     case ADD_STARRED_RESPONSE:
@@ -203,18 +203,6 @@ function suggested(state = INITIAL_STATE.suggested, action) {
       return state
   }
   return state;
-}
-
-export const fetchAddSuggested = requestObj => {
-  return (dispatch) => {
-    axios.get('http://localhost:4000/response', requestObj)
-      .then(data => {
-        dispatch(addSuggested(data))
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
 }
 
 const rootReducer = combineReducers({

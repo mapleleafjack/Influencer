@@ -18,7 +18,9 @@ function Starred ({ starredData, fetchStarred,  fetchRemoveStarred})  {
     return "Loading data"
   }
   return <div>
-            //this can have its own component
+            {
+              //this can have its own component
+            }
             <div className="header">
               <span className="title">Starred Influencers</span>
               <label className="filter"> Sort by:  &nbsp;&nbsp;
@@ -30,7 +32,6 @@ function Starred ({ starredData, fetchStarred,  fetchRemoveStarred})  {
                 </NativeSelect>
               </label>
             </div>
-            //
 
             <div className="starred_content">
             {
