@@ -3,9 +3,26 @@ import {
   combineReducers
 } from 'redux';
 
+const ADD_STARRED_RESPONSE = "ADD_STARRED_RESPONSE";
+const REMOVE_STARRED = "REMOVE_STARRED";
+const GET_STARRED = "GET_STARRED";
+const GET_SUGGESTED = "GET_SUGGESTED";
+const ADD_SUGGESTED = "ADD_SUGGESTED";
+
+const SERVER_ADDRESS = "http://localhost:4000";
+
+export const INITIAL_STATE = {
+  starred: [],
+  suggested: [],
+  actions: [],
+  sort: "username"
+}
+
+
+//calls
 export function addToStarred(user, index) {
   return function(dispatch) {
-    return axios.get("http://localhost:4000/response").then(({
+    return axios.get(SERVER_ADDRESS + "/response").then(({
       data
     }) => {
       dispatch(addToStarredResponse(data, user, index));
@@ -14,19 +31,9 @@ export function addToStarred(user, index) {
     });
   };
 }
-
-function addToStarredResponse(data, user, index) {
-  return {
-    type: "ADD_STARRED_RESPONSE",
-    payload: data,
-    user: user,
-    id: index
-  };
-}
-
 export function fetchRemoveStarred(id, user) {
   return function(dispatch) {
-    return axios.get("http://localhost:4000/starred").then(({
+    return axios.get(SERVER_ADDRESS + "/starred").then(({
       data
     }) => {
       dispatch(setRemoveStarred(data, id, user));
@@ -36,18 +43,9 @@ export function fetchRemoveStarred(id, user) {
   };
 }
 
-function setRemoveStarred(data, id, user) {
-  return {
-    type: "REMOVE_STARRED",
-    payload: data,
-    id: id,
-    user: user
-  };
-}
-
 export function fetchStarred(sort) {
   return function(dispatch) {
-    return axios.get("http://localhost:4000/starred").then(({
+    return axios.get(SERVER_ADDRESS + "/starred").then(({
       data
     }) => {
       dispatch(getStarred(data, sort));
@@ -57,17 +55,9 @@ export function fetchStarred(sort) {
   };
 }
 
-function getStarred(data, sort) {
-  return {
-    type: "GET_STARRED",
-    payload: data,
-    sort: sort
-  };
-}
-
 export function fetchSuggested() {
   return function(dispatch) {
-    return axios.get("http://localhost:4000/suggested").then(({
+    return axios.get(SERVER_ADDRESS + "/suggested").then(({
       data
     }) => {
       dispatch(setSuggested(data));
@@ -77,26 +67,49 @@ export function fetchSuggested() {
   };
 }
 
+//responses
+function addToStarredResponse(data, user, index) {
+  return {
+    type: ADD_STARRED_RESPONSE,
+    payload: data,
+    user: user,
+    id: index
+  };
+}
+
+function setRemoveStarred(data, id, user) {
+  return {
+    type: REMOVE_STARRED,
+    payload: data,
+    id: id,
+    user: user
+  };
+}
+
+function getStarred(data, sort) {
+  return {
+    type: GET_STARRED,
+    payload: data,
+    sort: sort
+  };
+}
+
 function setSuggested(data) {
   return {
-    type: "GET_SUGGESTED",
+    type: GET_SUGGESTED,
     payload: data
   };
 }
 
 function addSuggested(data) {
   return {
-    type: "ADD_SUGGESTED",
+    type: ADD_SUGGESTED,
     payload: data
   };
 }
 
-export const INITIAL_STATE = {
-  starred: [],
-  suggested: [],
-  actions: [],
-  sort: "username"
-}
+//data response sorting function
+//add more cases here (reverse can be parametrised together with "data");
 
 function sortData(data){
   let ordered;
@@ -126,6 +139,7 @@ function sortData(data){
       });
       ordered = [...data];
       break;
+
     default:
       break;
     }
@@ -134,7 +148,7 @@ function sortData(data){
 
 function starred(state = INITIAL_STATE.starred, action) {
   switch (action.type) {
-    case "GET_STARRED":
+    case GET_STARRED:
       if (!action.sort){
         action.sort = "username";
         state = sortData(action.payload.data);
@@ -143,11 +157,11 @@ function starred(state = INITIAL_STATE.starred, action) {
         state = sortData(state);
       }
       break
-    case "REMOVE_STARRED":
+    case REMOVE_STARRED:
       let element_removed = state.splice(action.id, 1);
       state = [...state];
       break;
-    case "ADD_STARRED_RESPONSE":
+    case ADD_STARRED_RESPONSE:
       // fake data, should be returned by the server
       // action.payload holds the fake API response
       // there should be an evaluaton of action.payload.status
@@ -174,14 +188,14 @@ function randomInRange(min, max) {
 
 function suggested(state = INITIAL_STATE.suggested, action) {
   switch (action.type) {
-    case "GET_SUGGESTED":
+    case GET_SUGGESTED:
       state = action.payload.data;
       break;
-    case "ADD_STARRED_RESPONSE":
+    case ADD_STARRED_RESPONSE:
       state.splice(action.id, 1);
       state = [...state];
       break;
-    case "REMOVE_STARRED":
+    case REMOVE_STARRED:
       console.log("remove?" + action.user);
       state = [...state, action.user];
       break;
@@ -202,8 +216,10 @@ export const fetchAddSuggested = requestObj => {
       });
   }
 }
+
 const rootReducer = combineReducers({
   starred: starred,
   suggested: suggested
 });
+
 export default rootReducer;
