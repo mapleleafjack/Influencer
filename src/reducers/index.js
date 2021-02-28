@@ -148,7 +148,13 @@ function starred(state = INITIAL_STATE.starred, action) {
       state = [...state];
       break;
     case "ADD_STARRED_RESPONSE":
-      //fake data, should be returned by the server
+      // fake data, should be returned by the server
+      // action.payload holds the fake API response
+      // there should be an evaluaton of action.payload.status
+      // and then adding the data from action.payload.data
+
+      // instead for this demo we copy over the data
+      // adding the necessary bits
       action.user.statistics = {
         followers: randomInRange(0,40000).toFixed(0),
         engagement:randomInRange(0,10).toFixed(2)
